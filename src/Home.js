@@ -147,16 +147,36 @@ const Home = () => {
 
       {/* Paginación */}
       <div className="pagination">
+        <button onClick={() => setCurrentPage(1)} disabled={currentPage === 1}>
+         First
+        </button>
         <button onClick={handlePrevious} disabled={currentPage === 1}>
           Previous
         </button>
         <span>
           Page {currentPage} of {totalPages}
         </span>
+        <input
+          type="number"
+          min="1"
+          max={totalPages}
+          value={currentPage}
+          onChange={(e) => {
+          const page = Number(e.target.value);
+          if (page >= 1 && page <= totalPages) {
+            setCurrentPage(page);
+          } 
+          }}
+          style={{ width: '50px', textAlign: 'center' }}
+        />
         <button onClick={handleNext} disabled={currentPage === totalPages}>
-          Next
+           Next
+        </button>
+        <button onClick={() => setCurrentPage(totalPages)} disabled={currentPage === totalPages}>
+           Last
         </button>
       </div>
+
     </div>
   );
 };
