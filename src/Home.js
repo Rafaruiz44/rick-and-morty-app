@@ -63,6 +63,11 @@ const Home = () => {
 
   return (
     <div>
+      {/* Encabezado */}
+      <header className="header">
+        <h1>Rick and Morty App</h1>
+      </header>
+
       {/* Botón de cambio de vista */}
       <div className="view-toggle">
         <button

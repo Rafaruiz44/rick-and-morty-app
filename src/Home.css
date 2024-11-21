@@ -11,6 +11,21 @@ body {
   div {
     box-sizing: border-box;
   }
+
+  .header {
+    display: flex;
+    justify-content: flex-start; 
+    background-color: #191929;
+    padding: 10px 20px;
+  }
+  
+  .header h1 {
+    color: rgb(172, 170, 199);
+    font-size: 24px;
+    margin: 0;
+    font-weight: bold;
+  }
+  
   
   /* Filtros */
   .filters-container {
