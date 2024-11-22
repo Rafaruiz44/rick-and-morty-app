@@ -120,6 +120,15 @@ const Home = () => {
           <option value="Dead">Dead</option>
           <option value="Unknown">Unknown</option>
         </select>
+        <button
+          className="clear-filters-button"
+          onClick={() => {
+            setFilters({ species: '', gender: '', status: '' });
+            setSearchTerm('');
+          }}
+        >
+          Clear Filters
+        </button>
       </div>
 
       {/* Vista en cuadrícula o lista */}
