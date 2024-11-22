@@ -23,13 +23,18 @@ const CharacterDetail = () => {
 
   return (
     <div style={styles.container}>
+      {/* Header agregado */}
+      <header className="header" style={styles.header}>
+        <h1>Rick and Morty App</h1>
+      </header>
+
       <button onClick={() => navigate(-1)} style={styles.backButton}>
         Back to List
       </button>
       <div style={styles.card}>
         <div style={styles.details}>
           <h1 style={styles.name}>{character.name}</h1>
-          {/* Imagen ubicada después del nombre */}
+          {/* Imagen ubicada despues del nombre */}
           <img src={character.image} alt={character.name} style={styles.image} />
           <p style={styles.info}><strong>Species:</strong> {character.species}</p>
           <p style={styles.info}><strong>Status:</strong> {character.status}</p>
@@ -52,10 +57,18 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: '20px',
-    backgroundColor: '#1e1e2e', // Fondo acorde a Home
-    color: '#fff', // Texto blanco
+    padding: '0px 0px 20px 0px',
+    backgroundColor: '#1e1e2e',
+    color: '#fff',
     minHeight: '100vh',
+  },
+  header: {
+    width: '100%',
+    backgroundColor: '#191929', // Fondo oscuro para el header
+    color: '#fff', // Texto blanco
+    textAlign: 'center',
+    padding: '10px 20',
+    marginBottom: '20px',
   },
   backButton: {
     backgroundColor: '#4caf50',
@@ -72,7 +85,7 @@ const styles = {
   card: {
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: '#2a2d3e', // Fondo similar a las tarjetas en Home
+    backgroundColor: '#2a2d3e',
     borderRadius: '8px',
     boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
     overflow: 'hidden',
@@ -99,17 +112,17 @@ const styles = {
   name: {
     fontSize: '32px',
     fontWeight: 'bold',
-    color: '#fff', // Texto blanco
+    color: '#fff',
     marginBottom: '10px',
   },
   info: {
     fontSize: '18px',
-    color: '#bfbfbf', // Texto gris claro
+    color: '#bfbfbf',
     marginBottom: '8px',
   },
   episodesTitle: {
     fontSize: '24px',
-    color: '#fff', // Título blanco
+    color: '#fff',
     marginTop: '20px',
   },
   episodesList: {
@@ -120,7 +133,7 @@ const styles = {
   },
   episodeItem: {
     fontSize: '16px',
-    color: '#bfbfbf', // Texto gris claro
+    color: '#bfbfbf',
     marginBottom: '6px',
     wordWrap: 'break-word',
   },
@@ -128,8 +141,7 @@ const styles = {
 
 // Efecto hover para el botón
 styles.backButton[':hover'] = {
-  backgroundColor: '#3e8e41', // Verde más oscuro al hacer hover
+  backgroundColor: '#3e8e41',
 };
-
 
 export default CharacterDetail;
