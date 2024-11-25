@@ -172,7 +172,7 @@ const Home = () => {
             <Link key={char.id} to={`/character/${char.id}`} className="list-item">
               <img src={char.image} alt={char.name} />
               <div className="details">
-                <h3>{char.name}</h3>
+                <h2>{char.name}</h2>
                 <p><strong>Species:</strong> {char.species}</p>
                 <p><strong>Status:</strong> {char.status}</p>
                 <p><strong>Gender:</strong> {char.gender}</p>

@@ -15,7 +15,7 @@ const CharacterCard = ({ character }) => {
         style={{ width: '100%', borderRadius: '8px' }}
       />
       <div style={{ padding: '10px' }}>
-        <h3>{character.name}</h3>
+        <h2>{character.name}</h2>
         <p><strong>.Species:</strong> {character.species}</p>
         <p><strong>.Status:</strong> {character.status}</p>
         <p><strong>.Gender:</strong> {character.gender}</p>

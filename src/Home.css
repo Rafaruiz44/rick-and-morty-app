@@ -210,7 +210,7 @@ body {
     flex-direction: column;
   }
   
-  .list-item .details h3 {
+  .list-item .details h2 {
     margin: 0;
     font-size: 18px;
     color: #fff;
