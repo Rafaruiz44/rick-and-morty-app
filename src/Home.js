@@ -6,29 +6,44 @@ import Loader from './components/Loader';
 import './Home.css';
 
 const Home = () => {
-  const [characters, setCharacters] = useState([]);
-  const [filteredCharacters, setFilteredCharacters] = useState([]);
+  const [allCharacters, setAllCharacters] = useState([]); // Todos los personajes cargados
+  const [filteredCharacters, setFilteredCharacters] = useState([]); // Filtros aplicados
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState({ species: '', gender: '', status: '' });
   const [searchTerm, setSearchTerm] = useState('');
   const [viewMode, setViewMode] = useState('grid'); // "grid" o "list"
+  const [inputPage, setInputPage] = useState(''); // Estado temporal para el input
 
+  const charactersPerPage = 20; // Cantidad de personajes por página
+
+  // Carga inicial de todos los personajes
   useEffect(() => {
-    const getData = async () => {
+    const getAllCharacters = async () => {
       setLoading(true);
-      const data = await fetchCharacters(currentPage);
-      setCharacters(data.results);
-      setTotalPages(data.info.pages);
-      setFilteredCharacters(data.results);
+      let allData = [];
+      let page = 1;
+      let data;
+
+      do {
+        data = await fetchCharacters(page);
+        allData = [...allData, ...data.results];
+        page++;
+      } while (data.info.next); // Itera hasta que no haya mas páginas
+
+      setAllCharacters(allData);
+      setFilteredCharacters(allData); // Inicialmente no hay filtros
+      setTotalPages(Math.ceil(allData.length / charactersPerPage)); // Calcula el total de páginas
       setLoading(false);
     };
-    getData();
-  }, [currentPage]);
 
+    getAllCharacters();
+  }, []);
+
+  // Filtra los personajes en base a los filtros y búsqueda
   useEffect(() => {
-    let filteredData = characters;
+    let filteredData = allCharacters;
 
     if (searchTerm) {
       filteredData = filteredData.filter((char) =>
@@ -49,8 +64,16 @@ const Home = () => {
     }
 
     setFilteredCharacters(filteredData);
-  }, [searchTerm, filters, characters]);
+    setTotalPages(Math.ceil(filteredData.length / charactersPerPage)); // Actualiza las páginas según los resultados
+    setCurrentPage(1); // Resetea a la primera pagina al aplicar filtros
+  }, [searchTerm, filters, allCharacters]);
 
+  // Actualiza el valor del input al cambiar la pagina
+  useEffect(() => {
+    setInputPage(String(currentPage));
+  }, [currentPage]);
+
+  // Manejadores de navegación
   const handleNext = () => {
     if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
   };
@@ -60,6 +83,11 @@ const Home = () => {
   };
 
   if (loading) return <Loader />;
+
+  // Determina los personajes a mostrar segun la página actual
+  const startIndex = (currentPage - 1) * charactersPerPage;
+  const endIndex = startIndex + charactersPerPage;
+  const charactersToShow = filteredCharacters.slice(startIndex, endIndex);
 
   return (
     <div>
@@ -109,7 +137,7 @@ const Home = () => {
           <option value="Male">Male</option>
           <option value="Female">Female</option>
           <option value="Genderless">Genderless</option>
-          <option value="Unknown">Unknown</option>
+          <option value="unknown">Unknown</option>
         </select>
         <select
           value={filters.status}
@@ -118,7 +146,7 @@ const Home = () => {
           <option value="">All Status</option>
           <option value="Alive">Alive</option>
           <option value="Dead">Dead</option>
-          <option value="Unknown">Unknown</option>
+          <option value="unknown">Unknown</option>
         </select>
         <button
           className="clear-filters-button"
@@ -135,7 +163,7 @@ const Home = () => {
       <div
         className={viewMode === 'grid' ? 'grid-container' : 'list-container'}
       >
-        {filteredCharacters.map((char) =>
+        {charactersToShow.map((char) =>
           viewMode === 'grid' ? (
             <Link key={char.id} to={`/character/${char.id}`} className="character-card">
               <CharacterCard character={char} />
@@ -154,10 +182,10 @@ const Home = () => {
         )}
       </div>
 
-      {/* Paginación */}
+      {/* Paginacion */}
       <div className="pagination">
         <button onClick={() => setCurrentPage(1)} disabled={currentPage === 1}>
-         First
+          First
         </button>
         <button onClick={handlePrevious} disabled={currentPage === 1}>
           Previous
@@ -166,26 +194,36 @@ const Home = () => {
           Page {currentPage} of {totalPages}
         </span>
         <input
-          type="number"
-          min="1"
-          max={totalPages}
-          value={currentPage}
-          onChange={(e) => {
-          const page = Number(e.target.value);
-          if (page >= 1 && page <= totalPages) {
-            setCurrentPage(page);
-          } 
+          type="text"
+          value={inputPage}
+          onChange={(e) => setInputPage(e.target.value)}
+          onBlur={() => {
+            const value = Number(inputPage);
+            if (value >= 1 && value <= totalPages) {
+              setCurrentPage(value);
+            } else {
+              setInputPage(String(currentPage)); // resetea fuera de rango
+            }
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              const value = Number(inputPage);
+              if (value >= 1 && value <= totalPages) {
+                setCurrentPage(value);
+              } else {
+                setInputPage(String(currentPage)); // Resetea si está fuera de rango
+              }
+            }
           }}
           style={{ width: '50px', textAlign: 'center' }}
         />
         <button onClick={handleNext} disabled={currentPage === totalPages}>
-           Next
+          Next
         </button>
         <button onClick={() => setCurrentPage(totalPages)} disabled={currentPage === totalPages}>
-           Last
+          Last
         </button>
       </div>
-
     </div>
   );
 };

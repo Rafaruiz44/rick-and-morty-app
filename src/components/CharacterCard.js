@@ -16,10 +16,10 @@ const CharacterCard = ({ character }) => {
       />
       <div style={{ padding: '10px' }}>
         <h3>{character.name}</h3>
-        <p><strong>-Species:</strong> {character.species}</p>
-        <p><strong>-Status:</strong> {character.status}</p>
-        <p><strong>-Gender:</strong> {character.gender}</p>
-        <p><strong>-Origin:</strong> {character.origin.name}</p>
+        <p><strong>.Species:</strong> {character.species}</p>
+        <p><strong>.Status:</strong> {character.status}</p>
+        <p><strong>.Gender:</strong> {character.gender}</p>
+        <p ><strong>.Origin:</strong> {character.origin.name}</p>
       </div>
     </motion.div>
   );
