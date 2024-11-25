@@ -16,7 +16,7 @@ const Home = () => {
   const [viewMode, setViewMode] = useState('grid'); // "grid" o "list"
   const [inputPage, setInputPage] = useState(''); // Estado temporal para el input
 
-  const charactersPerPage = 20; // Cantidad de personajes por página
+  const charactersPerPage = 20; // Cantidad de personajes por pagina
 
   // Carga inicial de todos los personajes
   useEffect(() => {
@@ -93,7 +93,7 @@ const Home = () => {
     <div>
       {/* Encabezado */}
       <header className="header">
-        <h1>Rick and Morty App</h1>
+        <h1>Rick and Morty</h1>
       </header>
 
       {/* Botón de cambio de vista */}
